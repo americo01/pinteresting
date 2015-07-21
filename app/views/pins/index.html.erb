@@ -1,15 +1,24 @@
+<% render 'pages/home' unless user_signed_in? %>
+
 <div id="pins" class= "transitions-enabled">
   <% @pins.each do |pin| %>
     <div class="box panel panel-default">
-      <img src="http://img1.wikia.nocookie.net/__cb20120329113944/fairytail/images/e/ec/Young_Happy_Avatar.jpg" alt="Gatito">
+      <%= link_to image_tag("http://img1.wikia.nocookie.net/__cb20120329113944/fairytail/images/e/ec/Young_Happy_Avatar.jpg"), pin %>
       <div class="panel-body">
-        <%= pin.description %>
-        <%= pin.user.email if pin.user %>
-        <%= link_to 'Show', pin %>
+        <p><%= pin.description %></p>
+        <p><strong><%= pin.user.email if pin.user %></strong></p>
         <% if pin.user == current_user %>
-          <%= link_to 'Edit', edit_pin_path(pin) %>
-          <%= link_to 'Destroy', pin, method: :delete, data: { confirm: 'Are you sure?' } %>
-        <% end %>
+          <div class="actions">
+            <%= link_to edit_pin_path(pin) do %>
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              Edit
+            <% end %>
+            <%= link_to pin, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              Delete
+            <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   <% end %>
